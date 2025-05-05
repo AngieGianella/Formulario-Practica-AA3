@@ -1,5 +1,6 @@
 $(document).ready(function () {
   const listaCursos = $("#listaCursos");
+
   const cursos = [
     {
       id: 1,
@@ -102,7 +103,7 @@ $(document).ready(function () {
     nuevoCurso = {
       id: cursos.length + 1,
       nombre: $("#cursoNombre").val(),
-      imagen: $("#cursoImagen").val() || "./library/img/javascript.png",
+      imagen: $("#cursoImagen").val() || ".",
       creditos: $("#cursoCreditos").val(),
       docentes: $("#cursoDocentes").val() || [],
       temas: $("#cursoTemas").val() || [],
