@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestor de Cursos</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div class="container mt-5">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Listado de Cursos</h2>
+        <button
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#cursoModal"
+        >
+          Nuevo Curso
+        </button>
+      </div>
+
+      <!-- Contenedor de tarjetas de cursos -->
+      <div class="row" id="listaCursos"></div>
+    </div>
+
+    <!-- Modal para nuevo curso -->
+    <div
+      class="modal fade"
+      id="cursoModal"
+      tabindex="-1"
+      aria-labelledby="cursoModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="cursoModalLabel">Nuevo Curso</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="formCurso" novalidate>
+              <div class="mb-2">
+                <label>Nombre del Curso:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="cursoNombre"
+                  required
+                />
+                <div class="invalid-feedback">Ingrese el nombre del curso.</div>
+              </div>
+              <div class="mb-2">
+                <label>Imagen del Curso (URL):</label>
+                <input type="url" class="form-control" id="cursoImagen" />
+              </div>
+              <div class="mb-2">
+                <label>Nro Créditos:</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="cursoCreditos"
+                  min="1"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Ingrese un número de créditos válido.
+                </div>
+              </div>
+              <div class="mb-2">
+                <label>Docentes:</label>
+                <select
+                  id="cursoDocentes"
+                  multiple
+                  class="form-select"
+                  required
+                ></select>
+                <div class="invalid-feedback">
+                  Seleccione al menos un docente.
+                </div>
+              </div>
+              <div class="mb-2">
+                <label>Temas del Curso:</label>
+                <select
+                  id="cursoTemas"
+                  multiple
+                  class="form-select"
+                  required
+                ></select>
+                <div class="invalid-feedback">Seleccione al menos un tema.</div>
+              </div>
+              <div class="mb-2">
+                <label>Alumnos matriculados:</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="cursoAlumnos"
+                  min="0"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Ingrese el número de alumnos.
+                </div>
+              </div>
+              <div class="mb-2">
+                <label>Duración (horas):</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="cursoDuracion"
+                  min="1"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Ingrese la duración del curso.
+                </div>
+              </div>
+              <div class="mb-2">
+                <label>Nota mínima:</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="cursoNotaMinima"
+                  min="0"
+                  max="20"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Ingrese una nota mínima válida (0-20).
+                </div>
+              </div>
+              <div class="text-end">
+                <button
+                  type="button"
+                  id="btnConfirmarGuardar"
+                  class="btn btn-success"
+                >
+                  Guardar Curso
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de confirmación de acción -->
+    <div
+      class="modal fade"
+      id="confirmGuardarModal"
+      tabindex="-1"
+      aria-labelledby="confirmGuardarModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirmar acción</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
+          </div>
+          <div class="modal-body">
+            ¿Está seguro de que desea guardar este curso?
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              id="btnGuardarCursoFinal"
+              class="btn btn-primary"
+            >
+              Sí, guardar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de confirmación final -->
+    <div
+      class="modal fade"
+      id="confirmModal"
+      tabindex="-1"
+      aria-labelledby="confirmModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Curso agregado</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
+          </div>
+          <div class="modal-body">El curso fue creado exitosamente.</div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              Aceptar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script src="./javascript.js"></script>
+</html>
